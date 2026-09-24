@@ -1,0 +1,54 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: flash-sale-engine
+
+  datasource:
+    url: jdbc:postgresql://localhost:5433/flashdb
+    username: flashuser
+    password: flashpass
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      pool-name: FlashSaleHikariPool
+      maximum-pool-size: 20
+      minimum-idle: 5
+      idle-timeout: 30000
+      connection-timeout: 30000
+      max-lifetime: 1800000
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      timeout: 5000ms
+
+logging:
+  level:
+    root: INFO
+    com.flashsale: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+redisson:
+  address: redis://127.0.0.1:6379
